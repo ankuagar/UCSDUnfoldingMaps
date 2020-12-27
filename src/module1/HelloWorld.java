@@ -5,6 +5,7 @@ import de.fhpotsdam.unfolding.UnfoldingMap;
 import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.providers.AbstractMapProvider;
 import de.fhpotsdam.unfolding.providers.Google;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 
@@ -36,7 +37,7 @@ public class HelloWorld extends PApplet
 	UnfoldingMap map2;
 
 	public void setup() {
-		size(800, 600, P2D);  // Set up the Applet window to be 800x600
+		size(800, 600);// Set up the Applet window to be 800x600
 		                      // The OPENGL argument indicates to use the 
 		                      // Processing library's 2D drawing
 		                      // You'll learn more about processing in Module 3
@@ -47,6 +48,7 @@ public class HelloWorld extends PApplet
 		
 		// Select a map provider
 		AbstractMapProvider provider = new Google.GoogleTerrainProvider();
+		provider = new Microsoft.HybridProvider();
 		// Set a zoom level
 		int zoomLevel = 10;
 		
@@ -86,5 +88,9 @@ public class HelloWorld extends PApplet
 		map1.draw();
 	}
 
+	public static void main(String[] args) {
+		String[] appletArgs = new String[] { "module1.HelloWorld" };
+		PApplet.main(appletArgs);
+	}
 	
 }
