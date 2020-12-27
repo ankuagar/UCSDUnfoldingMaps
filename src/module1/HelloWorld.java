@@ -80,7 +80,7 @@ public class HelloWorld extends PApplet
 	    // 32.9 (latitude) and -117.2 (longitude)
 	    map1.zoomAndPanTo(zoomLevel, new Location(32.9f, -117.2f));
 	    //Milpitas
-		// map2.zoomAndPanTo(zoomLevel, new Location(37.4f, -121.9f));
+		map2.zoomAndPanTo(zoomLevel, new Location(37.4f, -121.9f));
 
 		// This line makes the map interactive
 		MapUtils.createDefaultEventDispatcher(this, map1);
