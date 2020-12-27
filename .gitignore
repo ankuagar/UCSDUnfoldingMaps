@@ -4,4 +4,4 @@ out*
 .idea*
 .classpath
 .project
-*build*
+build
