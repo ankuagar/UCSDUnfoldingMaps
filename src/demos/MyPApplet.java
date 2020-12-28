@@ -29,7 +29,6 @@ public class MyPApplet extends PApplet{
 		int[] color = sunColorSec(second());		//calculate color code for sun
 		fill(color[0],color[1],color[2]);	//set sun color
 		ellipse(width/4,height/5,width/4,height/5);	//draw sun
-		
 	}
 	
 	/** Return the RGB color of the sun at this number of seconds in the minute */
@@ -51,7 +50,7 @@ public class MyPApplet extends PApplet{
 	
 	public static void main (String[] args) {
 		//Add main method for running as application
-		PApplet.main(new String[] {"--present", "MyPApplet"});
+		PApplet.main(new String[] {"--present", "demos.MyPApplet"});
 	}
 }
 
