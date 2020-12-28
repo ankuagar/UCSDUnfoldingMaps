@@ -37,14 +37,14 @@ public class MyPApplet extends PApplet{
 		int[] rgb = new int[3];
 		// Scale the brightness of the yellow based on the seconds.  0 seconds 
 		// is bright yellow.  30 seconds is black.
-		float diffFrom30 = Math.abs(30-seconds);
+		//float diffFrom30 = Math.abs(30-seconds);
 		
-		float ratio = diffFrom30/30;
+		float ratio = (seconds-0)/59.0f;
 		rgb[0] = (int)(255*ratio);
 		rgb[1] = (int)(255*ratio);
 		rgb[2] = 0;
 		
-		//System.out.println("R" + rgb[0] + " G" + rgb[1] + " B" + rgb[2]);
+		System.out.println(seconds + " : " + "R" + rgb[0] + " G" + rgb[1] + " B" + rgb[2]);
 		return rgb;
 	}	
 	
