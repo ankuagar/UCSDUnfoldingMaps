@@ -12,6 +12,9 @@ import de.fhpotsdam.unfolding.providers.StamenMapProvider;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 /** HelloWorld
   * An application with two maps side-by-side zoomed in on different locations.
   * Author: UC San Diego Coursera Intermediate Programming team
@@ -40,20 +43,19 @@ public class HelloWorld extends PApplet
 	UnfoldingMap map2;
 
 	public void setup() {
-		size(800, 600);// Set up the Applet window to be 800x600
+		size(800, 800);// Set up the Applet window to be 800x600
 		                      // The OPENGL argument indicates to use the 
 		                      // Processing library's 2D drawing
 		                      // You'll learn more about processing in Module 3
 
 		// This sets the background color for the Applet.  
 		// Play around with these numbers and see what happens!
-		this.background(200, 200, 200);
+		background(200, 200, 0);
 		
 		// Select a map provider
-		//AbstractMapProvider provider = new Google.GoogleTerrainProvider();
-		AbstractMapProvider provider = new Microsoft.HybridProvider();
-
-		//AbstractMapProvider provider2 = new Microsoft.RoadProvider();
+		AbstractMapProvider provider = new Google.GoogleTerrainProvider();
+		//AbstractMapProvider provider = new Microsoft.HybridProvider();
+		//AbstractMapProvider provider = new Microsoft.RoadProvider();
 		// Set a zoom level
 		int zoomLevel = 10;
 		
@@ -72,8 +74,8 @@ public class HelloWorld extends PApplet
 		// The 6th argument specifies the map provider.  
 		// There are several providers built-in.
 		// Note if you are working offline you must use the MBTilesMapProvider
-		map1 = new UnfoldingMap(this, 50, 50, 200, 300, provider);
-		map2 = new UnfoldingMap(this, 250, 50, 200, 300, provider);
+		map1 = new UnfoldingMap(this, 50, 50, 200, 200, provider);
+		map2 = new UnfoldingMap(this, 400, 400, 200, 200, provider);
 
 
 		// The next line zooms in and centers the map at 
@@ -83,8 +85,7 @@ public class HelloWorld extends PApplet
 		map2.zoomAndPanTo(zoomLevel, new Location(37.4f, -121.9f));
 
 		// This line makes the map interactive
-		MapUtils.createDefaultEventDispatcher(this, map1);
-		MapUtils.createDefaultEventDispatcher(this, map2);
+		MapUtils.createDefaultEventDispatcher(this, map1, map2);
 		
 		// TODO: Add code here that creates map2 
 		// Then you'll modify draw() below
@@ -93,6 +94,8 @@ public class HelloWorld extends PApplet
 
 	/** Draw the Applet window.  */
 	public void draw() {
+		//background(200, 200, 0);
+
 		// So far we only draw map1...
 		// TODO: Add code so that both maps are displayed
 		map1.draw();
@@ -100,8 +103,7 @@ public class HelloWorld extends PApplet
 	}
 
 	public static void main(String[] args) {
-		String[] appletArgs = new String[] { "module1.HelloWorld" };
-		PApplet.main(appletArgs);
+		PApplet.main (new String[] { "--present", "module1.HelloWorld" });
 	}
-	
+
 }
