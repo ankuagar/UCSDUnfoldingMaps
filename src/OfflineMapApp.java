@@ -13,7 +13,7 @@ public class OfflineMapApp extends PApplet {
 	UnfoldingMap map;
 
 	public void setup() {
-		size(800, 600, OPENGL);
+		size(800, 600);
 
 		map = new UnfoldingMap(this, new MBTilesMapProvider(mbTilesString));
 		MapUtils.createDefaultEventDispatcher(this, map);
@@ -23,6 +23,11 @@ public class OfflineMapApp extends PApplet {
 	public void draw() {
 		background(0);
 		map.draw();
+	}
+
+
+	public static void main(String[] args) {
+		PApplet.main (new String[] { "--present", "OfflineMapApp" });
 	}
 
 }
