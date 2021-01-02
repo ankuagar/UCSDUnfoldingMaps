@@ -1,6 +1,8 @@
 package module3.practice;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
+import de.fhpotsdam.unfolding.data.Feature;
+import de.fhpotsdam.unfolding.data.PointFeature;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.SimplePointMarker;
 import de.fhpotsdam.unfolding.providers.Google;
@@ -16,12 +18,18 @@ public class EarthQuakeCityMap extends PApplet {
     public void setup() {
         size(950, 600);
         Location valLoc = new Location(-38.14f, -73.03f);
-        Marker marker = new SimplePointMarker(valLoc);
+        Feature valEq = new PointFeature(valLoc);
+        valEq.addProperty("title", "Valdivia, Chile");
+        valEq.addProperty("magnitude", "9.5");
+        valEq.addProperty("date", "May 22, 1960");
+        valEq.addProperty("year", "1960");
+
+        Marker marker = new SimplePointMarker(valLoc, valEq.getProperties());
         marker.setColor(color(255, 255, 0)); //yellow
 
         //map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleTerrainProvider());
         map = new UnfoldingMap(this,200, 50, 700, 500, new Microsoft.HybridProvider());
-        map.zoomToLevel(4);
+        map.zoomAndPanTo(4, valLoc);
         map.addMarker(marker);
         MapUtils.createDefaultEventDispatcher(this, map);
     }
