@@ -29,6 +29,7 @@ public class LifeExpectancy extends PApplet {
 //        }
         countryMarkers = MapUtils.createSimpleMarkers(countries);
         for(Marker m: countryMarkers) {
+            System.out.println(m.getClass().getName());
             if(! (m instanceof MultiMarker)) {
                 m.setColor(color(255,0, 170));
                 map.addMarker(m);
