@@ -154,27 +154,27 @@ public class EarthquakeCityMap extends PApplet {
 		fill(0, 0, 0);
 		textAlign(70);
 		textSize(12);
-		text("Earthquake Key", 60, 90);
+		float startx = 60f;
+		float starty = 90f;
+		text("Earthquake Key", startx, starty);
+		text("5.0+ Magnitude", startx + 20, starty + 30);
+		text("4.0+ Magnitude", startx + 20, starty + 60);
+		text("Below 4.0", startx + 20, starty + 90);
 
 		fill(255, 0,0);
-		ellipse(70, 115, 15, 15);
+		float width = 15f, centerx = startx + width/2f;
+		ellipse(centerx, starty + 25, width, width);
 
-		fill(0, 0, 0);
-		text("5.0+ Magnitude", 80, 120);
 
 		fill(255, 255,0);
-		ellipse(70, 145, 10, 10);
+		width = 10f;
+		ellipse(centerx, starty + 55f, width, width);
 
-		fill(0, 0, 0);
-		text("4.0+ Magnitude", 80, 150);
 
-		fill(0, 0,255);
-		ellipse(70, 175, 6, 6);
+		fill(0, 0, 255);
+		width = 6f;
+		ellipse(centerx, starty + 85, width, width);
 
-		fill(0, 0, 0);
-		text("Below 4.0", 80, 180);
-
-	
 	}
 
 	public static void main(String[] args) {
