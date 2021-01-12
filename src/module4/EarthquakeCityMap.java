@@ -1,6 +1,8 @@
 package module4;
 
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -62,7 +64,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);
+		size(900, 700);
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
@@ -170,10 +172,15 @@ public class EarthquakeCityMap extends PApplet {
 		// If isInCountry ever returns true, isLand should return true.
 		for (Marker m : countryMarkers) {
 			// TODO: Finish this method using the helper method isInCountry
+			if(!isInCountry(earthquake, m)) {
+				continue;
+			}
+			else {
+				return true;
+			}
 			
 		}
-		
-		
+
 		// not inside any country
 		return false;
 	}
@@ -197,7 +204,23 @@ public class EarthquakeCityMap extends PApplet {
 		//     	and (2) if it is on land, that its country property matches 
 		//      the name property of the country marker.   If so, increment
 		//      the country's counter.
-		
+		Map<String, Integer> earthQuakeCountryCount = new HashMap<String, Integer>();
+		int quakesInOcean = 0;
+		for(Marker quakeMarker: quakeMarkers) {
+			String country = (String)quakeMarker.getProperty("country");
+			if(country == null) {
+				quakesInOcean += 1;
+			}
+			else {
+				earthQuakeCountryCount.put(country, earthQuakeCountryCount.getOrDefault(country, 0) + 1);
+			}
+
+		}
+		for(String country: earthQuakeCountryCount.keySet()) {
+			System.out.println(country + " : " + earthQuakeCountryCount.get(country));
+		}
+
+		System.out.println("EarthQuakes detected in the ocean = " + quakesInOcean);
 		// Here is some code you will find useful:
 		// 
 		//  * To get the name of a country from a country marker in variable cm, use:
@@ -249,5 +272,7 @@ public class EarthquakeCityMap extends PApplet {
 		}
 		return false;
 	}
-
+	public static void main(String[] args) {
+		PApplet.main (new String[] { "--present", "module4.EarthquakeCityMap" });
+	}
 }
