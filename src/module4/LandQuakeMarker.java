@@ -2,6 +2,7 @@ package module4;
 
 import de.fhpotsdam.unfolding.data.PointFeature;
 import processing.core.PGraphics;
+import processing.core.PConstants;
 
 /** Implements a visual marker for land earthquakes on an earthquake map
  * 
@@ -33,6 +34,8 @@ public class LandQuakeMarker extends EarthquakeMarker {
 		// and how it is set in the EarthquakeMarker constructor
 		
 		// TODO: Implement this method
+		pg.ellipseMode(PConstants.RADIUS);
+		pg.ellipse(x,y,this.radius, this.radius);
 		
 	}
 	

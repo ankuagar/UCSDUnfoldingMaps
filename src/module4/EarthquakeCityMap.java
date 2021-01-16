@@ -13,11 +13,13 @@ import de.fhpotsdam.unfolding.geo.Location;
 import de.fhpotsdam.unfolding.marker.AbstractShapeMarker;
 import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
+import processing.core.PConstants;
 
 /** EarthquakeCityMap
  * An application with an interactive map displaying earthquake data.
@@ -70,7 +72,8 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			//map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 650, 600, new Microsoft.RoadProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -133,7 +136,9 @@ public class EarthquakeCityMap extends PApplet {
 	
 	// helper method to draw key in GUI
 	// TODO: Update this method as appropriate
-	private void addKey() {	
+	private void addKey() {
+		float radius = 5;
+		float delta = 1.25f;
 		// Remember you can use Processing's graphics methods here
 		fill(255, 250, 240);
 		rect(25, 50, 150, 250);
@@ -145,15 +150,41 @@ public class EarthquakeCityMap extends PApplet {
 		
 		fill(color(255, 0, 0));
 		triangle(50, 125, 55, 115, 60, 125);
-//		fill(color(255, 255, 0));
-//		ellipse(50, 175, 10, 10);
-//		fill(color(0, 0, 255));
-//		ellipse(50, 225, 5, 5);
-		
+
+		fill(color(255, 255, 255)); //White
+		ellipseMode(PConstants.RADIUS);
+		ellipse(55, 135, radius + 1,radius + 1);
+
+		rectMode(PConstants.RADIUS);
+		rect(55, 150, radius + 1,radius + 1);
+
+		fill(color(255, 255, 0)); //Yellow
+		ellipseMode(PConstants.RADIUS);
+		ellipse(55, 190, radius,radius);
+
+		fill(color(0, 0, 255)); //Blue
+		ellipseMode(PConstants.RADIUS);
+		ellipse(55, 210, radius,radius);
+
+		fill(color(255, 0, 0)); //Red
+		ellipseMode(PConstants.RADIUS);
+		ellipse(55, 230, radius,radius);
+
+		fill(color(255, 255, 255)); //White
+		ellipseMode(PConstants.RADIUS);
+		ellipse(55, 250, radius,radius);
+		line(55 - delta*radius, 250 - delta*radius, 55 + delta*radius, 250 + delta*radius);
+		line(55 - delta*radius, 250 + delta*radius, 55 + delta*radius, 250 - delta*radius);
+
 		fill(0, 0, 0);
 		text("City Marker", 75, 120);
-//		text("4.0+ Magnitude", 75, 175);
-//		text("Below 4.0", 75, 225);
+		text("Land Quake", 75, 135);
+		text("Ocean Quake", 75, 150);
+		text("Size ~ Magnitude", 50, 165);
+		text("Shallow", 75, 190);
+		text("Intermediate", 75, 210);
+		text("Shallow", 75, 230);
+		text("Past day", 75, 250);
 	}
 
 	
