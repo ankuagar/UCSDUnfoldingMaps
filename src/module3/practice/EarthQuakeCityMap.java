@@ -28,17 +28,46 @@ public class EarthQuakeCityMap extends PApplet {
         marker.setColor(color(255, 255, 0)); //yellow
 
         //map = new UnfoldingMap(this, 200, 50, 700, 500, new Google.GoogleTerrainProvider());
-        map = new UnfoldingMap(this,200, 50, 700, 500, new Microsoft.HybridProvider());
+        map = new UnfoldingMap(this,200, 50, 700, 500, new Microsoft.RoadProvider());
         map.zoomAndPanTo(4, valLoc);
         map.addMarker(marker);
         MapUtils.createDefaultEventDispatcher(this, map);
+        //drawButtons(); // if added here, map will overwrite the buttons
     }
 
     public void draw() {
-        background(255);
+        background(255,0,0);
+        //drawButtons(); // if added here, map will overwrite the buttons
         map.draw();
+        drawButtons();
 
     }
+    private void drawButtons() {
+        fill(255,255, 255);
+        rect(100, 100, 25, 25);
+
+        fill(255,175, 100);
+        rect(100, 150, 25, 25);
+
+    }
+
+    public void mousePressed() {
+        System.out.println("Pressed" + " : " + mouseEvent.getButton() + " : " + mouseX + " : " + mouseY);
+    }
+
+    public void mouseReleased() {
+
+        System.out.println("Released" + " : " + mouseEvent.getButton() + " : " + mouseX + " : " + mouseY);
+    }
+
+    public void mouseClicked() {
+        System.out.println("Clicked" + " : " + mouseEvent.getButton() + " : " + mouseX + " : " + mouseY);
+    }
+
+    public void mouseMoved() {
+        System.out.println("Moved" + " : " + mouseEvent.getButton() + " : " + mouseX + " : " + mouseY);
+    }
+
     public static void main(String[] args) {
         PApplet.main (new String[] { "--present", "module3.practice.EarthQuakeCityMap" });
     }
