@@ -13,6 +13,7 @@ import de.fhpotsdam.unfolding.marker.Marker;
 import de.fhpotsdam.unfolding.marker.MultiMarker;
 import de.fhpotsdam.unfolding.providers.Google;
 import de.fhpotsdam.unfolding.providers.MBTilesMapProvider;
+import de.fhpotsdam.unfolding.providers.Microsoft;
 import de.fhpotsdam.unfolding.utils.MapUtils;
 import parsing.ParseFeed;
 import processing.core.PApplet;
@@ -70,7 +71,8 @@ public class EarthquakeCityMap extends PApplet {
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
 		}
 		else {
-			map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			//map = new UnfoldingMap(this, 200, 50, 650, 600, new Google.GoogleMapProvider());
+			map = new UnfoldingMap(this, 200, 50, 650, 600, new Microsoft.RoadProvider());
 			// IF YOU WANT TO TEST WITH A LOCAL FILE, uncomment the next line
 		    //earthquakesURL = "2.5_week.atom";
 		}
@@ -85,23 +87,28 @@ public class EarthquakeCityMap extends PApplet {
 		//     STEP 2: read in city data
 		List<Feature> cities = GeoJSONReader.loadData(this, cityFile);
 		cityMarkers = new ArrayList<Marker>();
+		CityMarker cm = null;
 		for(Feature city : cities) {
-		  cityMarkers.add(new CityMarker(city));
+			cm = new CityMarker(city);
+			cityMarkers.add(cm);
+			System.out.println(cm.getProperties());
 		}
 	    
 		//     STEP 3: read in earthquake RSS feed
 	    List<PointFeature> earthquakes = ParseFeed.parseEarthquake(this, earthquakesURL);
 	    quakeMarkers = new ArrayList<Marker>();
-	    
+		EarthquakeMarker qm = null;
 	    for(PointFeature feature : earthquakes) {
 		  //check if LandQuake
 		  if(isLand(feature)) {
-		    quakeMarkers.add(new LandQuakeMarker(feature));
+             qm = new LandQuakeMarker(feature);
 		  }
 		  // OceanQuakes
 		  else {
-		    quakeMarkers.add(new OceanQuakeMarker(feature));
+             qm = new OceanQuakeMarker(feature);
 		  }
+			quakeMarkers.add(qm);
+		  System.out.println(qm.getProperties());
 	    }
 
 	    // could be used for debugging
@@ -136,7 +143,9 @@ public class EarthquakeCityMap extends PApplet {
 		
 		}
 		selectMarkerIfHover(quakeMarkers);
-		selectMarkerIfHover(cityMarkers);
+		if(lastSelected == null) {
+			selectMarkerIfHover(cityMarkers);
+		}
 	}
 	
 	// If there is a marker under the cursor, and lastSelected is null 
@@ -146,6 +155,15 @@ public class EarthquakeCityMap extends PApplet {
 	private void selectMarkerIfHover(List<Marker> markers)
 	{
 		// TODO: Implement this method
+		for(Marker m: markers) {
+			if(m.isInside(map, mouseX, mouseY)) {
+				if(lastSelected == null) {
+					lastSelected = (CommonMarker) m;
+				}
+				m.setSelected(true);
+				break;
+			}
+		}
 	}
 	
 	/** The event handler for mouse clicks
@@ -159,9 +177,52 @@ public class EarthquakeCityMap extends PApplet {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
+		if(lastClicked != null) {
+			unhideMarkers();
+			lastClicked = null;
+		}
+		for(Marker m: quakeMarkers) {
+			if (m.isInside(map, mouseX, mouseY)) {
+				lastClicked = (CommonMarker) m;
+				break;
+			}
+		}
+		if(lastClicked == null) {
+			for (Marker m : cityMarkers) {
+				if (m.isInside(map, mouseX, mouseY)) {
+					lastClicked = (CommonMarker) m;
+					break;
+				}
+			}
+		}
+		if(lastClicked instanceof EarthquakeMarker) {
+			for(Marker m: quakeMarkers) {
+				m.setHidden(true);
+			}
+			lastClicked.setHidden(false);
+			for(Marker m: cityMarkers) {
+				if(lastClicked.getDistanceTo(m.getLocation()) <= ((EarthquakeMarker) lastClicked).threatCircle()) {
+					m.setHidden(false);
+				} else {
+					m.setHidden(true);
+				}
+			}
+		} else if (lastClicked instanceof CityMarker){
+			for(Marker m: cityMarkers) {
+				m.setHidden(true);
+			}
+			lastClicked.setHidden(false);
+			for(Marker m: quakeMarkers) {
+				if(lastClicked.getDistanceTo(m.getLocation()) <= ((EarthquakeMarker) m).threatCircle()) {
+					m.setHidden(false);
+				} else {
+					m.setHidden(true);
+				}
+			}
+		}
+
 	}
-	
-	
+
 	// loop over and unhide all markers
 	private void unhideMarkers() {
 		for(Marker marker : quakeMarkers) {
