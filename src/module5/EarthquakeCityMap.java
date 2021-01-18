@@ -64,7 +64,7 @@ public class EarthquakeCityMap extends PApplet {
 	
 	public void setup() {		
 		// (1) Initializing canvas and map tiles
-		size(900, 700, OPENGL);
+		size(900, 700);
 		if (offline) {
 		    map = new UnfoldingMap(this, 200, 50, 650, 600, new MBTilesMapProvider(mbTilesString));
 		    earthquakesURL = "2.5_week.atom";  // The same feed, but saved August 7, 2015
@@ -313,6 +313,10 @@ public class EarthquakeCityMap extends PApplet {
 			return true;
 		}
 		return false;
+	}
+	public static void main(String[] args) {
+
+		PApplet.main (new String[] { "--present", "module5.EarthquakeCityMap" });
 	}
 
 }
