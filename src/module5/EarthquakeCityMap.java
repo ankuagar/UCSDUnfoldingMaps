@@ -172,55 +172,57 @@ public class EarthquakeCityMap extends PApplet {
 	 * where the city is in the threat circle
 	 */
 	@Override
-	public void mouseClicked()
-	{
+	public void mouseClicked() {
 		// TODO: Implement this method
 		// Hint: You probably want a helper method or two to keep this code
 		// from getting too long/disorganized
-		if(lastClicked != null) {
+		if (lastClicked != null) {
 			unhideMarkers();
 			lastClicked = null;
-		}
-		for(Marker m: quakeMarkers) {
-			if (m.isInside(map, mouseX, mouseY)) {
-				lastClicked = (CommonMarker) m;
-				break;
-			}
-		}
-		if(lastClicked == null) {
-			for (Marker m : cityMarkers) {
-				if (m.isInside(map, mouseX, mouseY)) {
+		} else if (lastClicked == null) {
+
+			for (Marker m : quakeMarkers) {
+				if (!m.isHidden() && m.isInside(map, mouseX, mouseY)) { // not sure why to test for hidden here, since no marker will be hidden when lastClicked is null
 					lastClicked = (CommonMarker) m;
 					break;
 				}
 			}
-		}
-		if(lastClicked instanceof EarthquakeMarker) {
-			for(Marker m: quakeMarkers) {
-				m.setHidden(true);
-			}
-			lastClicked.setHidden(false);
-			for(Marker m: cityMarkers) {
-				if(lastClicked.getDistanceTo(m.getLocation()) <= ((EarthquakeMarker) lastClicked).threatCircle()) {
-					m.setHidden(false);
-				} else {
-					m.setHidden(true);
+			if (lastClicked == null) {
+				for (Marker m : cityMarkers) {
+					if (!m.isHidden() && m.isInside(map, mouseX, mouseY)) { // not sure why to test for hidden here, since no marker will be hidden when lastClicked is null
+						lastClicked = (CommonMarker) m;
+						break;
+					}
 				}
 			}
-		} else if (lastClicked instanceof CityMarker){
-			for(Marker m: cityMarkers) {
-				m.setHidden(true);
-			}
-			lastClicked.setHidden(false);
-			for(Marker m: quakeMarkers) {
-				if(lastClicked.getDistanceTo(m.getLocation()) <= ((EarthquakeMarker) m).threatCircle()) {
-					m.setHidden(false);
-				} else {
+			if (lastClicked instanceof EarthquakeMarker) {
+				for (Marker m : quakeMarkers) {
 					m.setHidden(true);
 				}
+				lastClicked.setHidden(false);
+				for (Marker m : cityMarkers) {
+					if (lastClicked.getDistanceTo(m.getLocation()) <= ((EarthquakeMarker) lastClicked).threatCircle()) {
+						m.setHidden(false);
+					} else {
+						m.setHidden(true);
+					}
+				}
 			}
-		}
+			else if (lastClicked instanceof CityMarker) {
+				for (Marker m : cityMarkers) {
+					m.setHidden(true);
+				}
+				lastClicked.setHidden(false);
+				for (Marker m : quakeMarkers) {
+					if (lastClicked.getDistanceTo(m.getLocation()) <= ((EarthquakeMarker) m).threatCircle()) {
+						m.setHidden(false);
+					} else {
+						m.setHidden(true);
+					}
+				}
+			}
 
+		}
 	}
 
 	// loop over and unhide all markers
