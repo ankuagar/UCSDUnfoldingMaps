@@ -2,6 +2,7 @@ package module6;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import de.fhpotsdam.unfolding.UnfoldingMap;
@@ -40,8 +41,6 @@ public class EarthquakeCityMap extends PApplet {
 	
 	/** This is where to find the local tiles, for working without an Internet connection */
 	public static String mbTilesString = "blankLight-1-3.mbtiles";
-	
-	
 
 	//feed with magnitude 2.5+ Earthquakes
 	private String earthquakesURL = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.atom";
@@ -117,6 +116,8 @@ public class EarthquakeCityMap extends PApplet {
 
 	    // could be used for debugging
 	    printQuakes();
+	    sortAndPrint(quakeMarkers.size());
+		//sortAndPrint(350);
 	 		
 	    // (3) Add markers to map
 	    //     NOTE: Country markers are not added to the map.  They are used
@@ -139,6 +140,18 @@ public class EarthquakeCityMap extends PApplet {
 	// TODO: Add the method:
 	//   private void sortAndPrint(int numToPrint)
 	// and then call that method from setUp
+
+	private void sortAndPrint(int numToPrint) {
+		System.out.println("Request to print " + numToPrint + " quake markers");
+		Marker[] arr = quakeMarkers.toArray(new Marker[0]);
+		Arrays.sort(arr);
+		int i;
+		for(i=0; i < (arr.length > numToPrint ? numToPrint : arr.length); i++ ) {
+			System.out.println(arr[i]);
+		}
+		System.out.println("Printed " + i + " quake markers");
+
+	}
 	
 	/** Event handler that gets called automatically when the 
 	 * mouse moves.
