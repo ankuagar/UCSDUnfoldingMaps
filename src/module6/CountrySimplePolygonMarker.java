@@ -11,12 +11,10 @@ import java.util.List;
 
 public class CountrySimplePolygonMarker extends SimplePolygonMarker implements ShowTitle {
     private UnfoldingMap map;
-    private PGraphics pg;
-    public CountrySimplePolygonMarker(PGraphics pg, UnfoldingMap map, Feature feature) {
+    public CountrySimplePolygonMarker(UnfoldingMap map, Feature feature) {
         super(((ShapeFeature)feature).getLocations(), feature.getProperties());
         super.setId(feature.getId());
         this.map = map;
-        this.pg = pg;
     }
 
     public void draw(PGraphics pg, List<MapPosition> mapPositionList) {

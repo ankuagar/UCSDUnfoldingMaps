@@ -49,7 +49,7 @@ public class LifeExpectancy extends PApplet {
 		for(Feature feature: countries) {
 			//System.out.println(feature.getId());
 			if(feature instanceof ShapeFeature) {
-				countryMarkers.add(new CountrySimplePolygonMarker(g, map, feature));
+				countryMarkers.add(new CountrySimplePolygonMarker(map, feature));
 			} else if(feature instanceof MultiFeature) {
 				countryMarkers.add(new CountryMultiMarker(g, feature));
 			}
